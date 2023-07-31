@@ -10,6 +10,7 @@ import time
 import urllib
 import requests
 import urllib.request
+from io import BytesIO
 
 
 engine = pyttsx3.init()
@@ -71,10 +72,6 @@ def select(event):
     if lifelines_used["Audience Poll"]:
         audiencePoll51Button.config(state=tk.DISABLED)
 
-        for i in range(16):
-            if value == question[i]:
-                questionIndex = i
-
     b = event.widget
     value = b['text']
     # Reset 50-50 lifeline buttons
@@ -91,8 +88,9 @@ def select(event):
     # Clear the Audience Poll result label
     audience_poll_result_label.config(text="")
 
-    for i in range(16):
+    for i in range(15):
         if value == answers[i]:
+            print(i)
             questionIndex = (i + 1) % 16
             questionArea.delete(1.0, END)
             questionArea.insert(END, question[questionIndex])
@@ -103,13 +101,27 @@ def select(event):
             optionButton4.config(text=fourth_option[questionIndex])
             amount_label_label.config(image=amountImages[questionIndex])
 
-        if questionIndex == 16:  # If the last question is answered correctly
-            # Display "You won" message
-            message_label = tk.Label(bottomframe, text="You won!", font=('arial', 20, 'bold'), bg='black', fg='white', activebackground='black', activeforeground='white')
-            message_label.pack()
+        if questionIndex == 15:  # If the last question is answered correctly
+            root2 = Toplevel()
+            root2.config(bg='black')
+            root2.geometry('1270x652+0+0')
+            root2.title("Congratulations! You Won!")
 
-            # Close the application after a brief delay
+            imgLabel = Label(root2, image=kbc_logo, bg='black', bd=0, activebackground='black',
+                             highlightbackground='black', highlightthickness=0, width=380, height=280)
+            imgLabel.pack(pady=50)
+
+            winLabel = Label(root2, text='Congratulations! You Won!', font=('arial', 40, 'bold'), bg='black',
+                             fg='white')
+            winLabel.pack()
+
+            # closeButton = tk.Button(root2, text='Close', font=('arial', 20, 'bold'), bg='black', fg='white',
+            #                         activebackground='black', activeforeground='white', bd=0, cursor='hand2',
+            #                         command=close)
+            # closeButton.pack()
             root.after(4000, root.destroy)
+            root2.mainloop()
+            break
 
         if value not in answers:
             def close():
@@ -228,7 +240,7 @@ def use_audience_poll():
 def use_phoneFriend():
     global lifeline_used, questionIndex, phone_friend_used
     # Load music from Google Drive link using pygame.mixer
-    music_url = "https://github.com/yash2001181/kbc_images_more/blob/main/calling.mp3"
+    music_url = "https://github.com/yash2001181/kbc_game/blob/main/kbc_game_attachment/calling.mp3"
     response = requests.get(music_url)
     with open("phone_friend_music.mp3", "wb") as f:
         f.write(response.content)
@@ -291,7 +303,7 @@ def create_button(parent, image_path, row, column):
 
 
 # Button creation (50-50 lifeline button)
-url = "https://drive.google.com/uc?id=1WuwteXzufbcIxWa8em1B39LT5hgtADhb"
+url = "https://github.com/yash2001181/kbc_game/blob/main/kbc_game_attachment/50-50.png"
 headers = {'User-Agent': 'Mozilla/5.0'}
 req = urllib.request.Request(url, headers=headers)
 
@@ -306,7 +318,7 @@ except urllib.error.HTTPError as e:
 
 # Replace YOUR_AUDIENCE_POLL_IMAGE_ID with the actual ID of your audience poll image
 
-url = "https://drive.google.com/uc?id=1DDklSCyh7_c7wK6M3UL0dh4Ws1wDu2Ey"
+url = "https://github.com/yash2001181/kbc_game/blob/main/kbc_game_attachment/audiencePole.png"
 headers = {'User-Agent': 'Mozilla/5.0'}
 req = urllib.request.Request(url, headers=headers)
 
@@ -323,7 +335,7 @@ except urllib.error.HTTPError as e:
 # Button creation (phone a friend button)
 # Replace YOUR_PHONE_FRIEND_IMAGE_ID with the actual ID of your phone a friend image
 
-url = "https://drive.google.com/uc?id=1Wyw_dMZqJOrrJ2y4TT5Jq_RvVWqBozpF"
+url = "https://github.com/yash2001181/kbc_game/blob/main/kbc_game_attachment/phoneAFriend.png"
 headers = {'User-Agent': 'Mozilla/5.0'}
 req = urllib.request.Request(url, headers=headers)
 
@@ -338,7 +350,7 @@ except urllib.error.HTTPError as e:
 
 # Replace YOUR_LOGO_IMAGE_ID with the actual ID of your KBC logo image
 
-url = "https://drive.google.com/uc?id=1CoT_osMzE5eKklyqlw3A9n4Vz0BX84ZF"
+url = "https://github.com/yash2001181/kbc_game/blob/main/kbc_game_attachment/phoneAFriend.png"
 headers = {'User-Agent': 'Mozilla/5.0'}
 req = urllib.request.Request(url, headers=headers)
 
@@ -360,14 +372,13 @@ kbc_logo_label.pack()
 
 # List to store the ImageTk.PhotoImage objects
 amountImages = []
-image_ids = ['1pyK9rvQ_euP6ObR-VU7LUJ_ABjo6O44I', '1EmAO9P3Uk1iXTBVmpXUogkXt0N6rhMWX',
-             '1Dvw3FI43VdF0E7-ev2OhspIYVf2EGTK9', '1rI58GN2BP6QD7OCJ3HR0zDPLDvOH8F33', '1WHSSJCvW7qeFFVPrQ_m-GhlmJ7LuOF6O',
-             '1GJsIvsNAFOw0FrJ7jj8l0VzXBnVhJfU_', '1tuGt0AZMMjH017ZUJNDzb0zfr-B9d6iv', '120AmyTrRNF87R4prwAaPtlw9WcDM2X29',
-             '1ihIdqoFtmWZ5yzcr2Seq2F8J6NkkxhtW', '1T9IknEDKpUfSA1O_brMjYnkKy7Cl2vZh', '1ZMevSRElwWs1m9qnOGP05p3FFKiH2um0',
-             '1mLi_3PtCkXs3Ai1ptqWGE6vxfNBoNho3', '1qDKW1ofm8ellXxVCBKcm9LLiBe02F7wy', '1q5xu7Au2YpUexcv-DhswFCNQXyaXz5Yv', '1EuLhreUFqtamH9buLiTusO0U6w9momP1']
+image_ids = ['https://github.com/yash2001181/kbc_game/blob/main/kbc_game_attachment/Picture1.png', 'https://github.com/yash2001181/kbc_game/blob/main/kbc_game_attachment/Picture1.png', 'https://github.com/yash2001181/kbc_game/blob/main/kbc_game_attachment/Picture3.png', 'https://github.com/yash2001181/kbc_game/blob/main/kbc_game_attachment/Picture4.png'
+             , 'https://github.com/yash2001181/kbc_game/blob/main/kbc_game_attachment/Picture5.png', 'https://github.com/yash2001181/kbc_game/blob/main/kbc_game_attachment/Picture6.png', 'https://github.com/yash2001181/kbc_game/blob/main/kbc_game_attachment/Picture7.png', 'https://github.com/yash2001181/kbc_game/blob/main/kbc_game_attachment/Picture8.png'
+             , 'https://github.com/yash2001181/kbc_game/blob/main/kbc_game_attachment/Picture9.png', 'https://github.com/yash2001181/kbc_game/blob/main/kbc_game_attachment/Picture10.png', 'https://github.com/yash2001181/kbc_game/blob/main/kbc_game_attachment/Picture11.png', 'https://github.com/yash2001181/kbc_game/blob/main/kbc_game_attachment/Picture12.png'
+             , 'https://github.com/yash2001181/kbc_game/blob/main/kbc_game_attachment/Picture13.png', 'https://github.com/yash2001181/kbc_game/blob/main/kbc_game_attachment/Picture14.png', 'https://github.com/yash2001181/kbc_game/blob/main/kbc_game_attachment/Picture15.png']
 # Loop to load the images and append them to the amountImages list
 for i in range(len(image_ids)):
-    url = f"https://drive.google.com/uc?id={image_ids[i]}"
+    url = f"{image_ids[i]}"
     headers = {'User-Agent': 'Mozilla/5.0'}
     req = urllib.request.Request(url, headers=headers)
 
@@ -379,29 +390,12 @@ for i in range(len(image_ids)):
         print(f"HTTP Error {e.code}: {e.reason}")
 
 
-image_url = "https://github.com/yash2001181/kbc_images_more/blob/748002a725b87e8be1e9ee25ca4c1c31809e310c/Picture0.png"
-
-try:
-    # Download the image from the raw URL
-    response = urllib.request.urlopen(image_url)
-    amount_label = Image.open(response)
-
-    # Now you can use the image as you like
-    # For example, you can display it using `show` method
-    # image.show()
-
-except Exception as e:
-    print(f"Error: {e}")
-
-
-
-
 amount_label_label = tk.Label(rightFrame, image=amount_label, bg='black', bd=0, activebackground='black',
                               highlightbackground='black', highlightthickness=0)
 amount_label_label.pack()
 # Replace YOUR_LAYOUT_IMAGE_ID with the actual ID of your layout image
 
-url = "https://drive.google.com/uc?id=1PLQwoF2sR8l4KEZ2QHe_PmldCJnTAv-R"
+url = "https://github.com/yash2001181/kbc_game/blob/main/kbc_game_attachment/Picture0.png"
 headers = {'User-Agent': 'Mozilla/5.0'}
 req = urllib.request.Request(url, headers=headers)
 
