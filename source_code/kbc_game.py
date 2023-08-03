@@ -240,7 +240,7 @@ def use_audience_poll():
 def use_phoneFriend():
     global lifeline_used, questionIndex, phone_friend_used
     # Load music from Google Drive link using pygame.mixer
-    music_url = "https://github.com/yash2001181/kbc_game/blob/main/kbc_game_attachment/calling.mp3"
+    music_url = "https://github.com/yash2001181/kbc_game/blob/main/kbc_game_attachment/calling.mp3?raw=true"
     response = requests.get(music_url)
     with open("phone_friend_music.mp3", "wb") as f:
         f.write(response.content)
@@ -303,7 +303,7 @@ def create_button(parent, image_path, row, column):
 
 
 # Button creation (50-50 lifeline button)
-url = "https://github.com/yash2001181/kbc_game/blob/main/kbc_game_attachment/50-50.png"
+url = "https://github.com/yash2001181/kbc_game/blob/main/kbc_game_attachment/50-50.png?raw=true"
 headers = {'User-Agent': 'Mozilla/5.0'}
 req = urllib.request.Request(url, headers=headers)
 
@@ -318,7 +318,7 @@ except urllib.error.HTTPError as e:
 
 # Replace YOUR_AUDIENCE_POLL_IMAGE_ID with the actual ID of your audience poll image
 
-url = "https://github.com/yash2001181/kbc_game/blob/main/kbc_game_attachment/audiencePole.png"
+url = "https://github.com/yash2001181/kbc_game/blob/main/kbc_game_attachment/audiencePole.png?raw=true"
 headers = {'User-Agent': 'Mozilla/5.0'}
 req = urllib.request.Request(url, headers=headers)
 
@@ -335,7 +335,7 @@ except urllib.error.HTTPError as e:
 # Button creation (phone a friend button)
 # Replace YOUR_PHONE_FRIEND_IMAGE_ID with the actual ID of your phone a friend image
 
-url = "https://github.com/yash2001181/kbc_game/blob/main/kbc_game_attachment/phoneAFriend.png"
+url = "https://github.com/yash2001181/kbc_game/blob/main/kbc_game_attachment/phoneAFriend.png?raw=true"
 headers = {'User-Agent': 'Mozilla/5.0'}
 req = urllib.request.Request(url, headers=headers)
 
@@ -350,7 +350,7 @@ except urllib.error.HTTPError as e:
 
 # Replace YOUR_LOGO_IMAGE_ID with the actual ID of your KBC logo image
 
-url = "https://github.com/yash2001181/kbc_game/blob/main/kbc_game_attachment/phoneAFriend.png"
+url = "https://github.com/yash2001181/kbc_game/blob/main/kbc_game_attachment/kbc_logo.png?raw=true"
 headers = {'User-Agent': 'Mozilla/5.0'}
 req = urllib.request.Request(url, headers=headers)
 
@@ -372,10 +372,10 @@ kbc_logo_label.pack()
 
 # List to store the ImageTk.PhotoImage objects
 amountImages = []
-image_ids = ['https://github.com/yash2001181/kbc_game/blob/main/kbc_game_attachment/Picture1.png', 'https://github.com/yash2001181/kbc_game/blob/main/kbc_game_attachment/Picture1.png', 'https://github.com/yash2001181/kbc_game/blob/main/kbc_game_attachment/Picture3.png', 'https://github.com/yash2001181/kbc_game/blob/main/kbc_game_attachment/Picture4.png'
-             , 'https://github.com/yash2001181/kbc_game/blob/main/kbc_game_attachment/Picture5.png', 'https://github.com/yash2001181/kbc_game/blob/main/kbc_game_attachment/Picture6.png', 'https://github.com/yash2001181/kbc_game/blob/main/kbc_game_attachment/Picture7.png', 'https://github.com/yash2001181/kbc_game/blob/main/kbc_game_attachment/Picture8.png'
-             , 'https://github.com/yash2001181/kbc_game/blob/main/kbc_game_attachment/Picture9.png', 'https://github.com/yash2001181/kbc_game/blob/main/kbc_game_attachment/Picture10.png', 'https://github.com/yash2001181/kbc_game/blob/main/kbc_game_attachment/Picture11.png', 'https://github.com/yash2001181/kbc_game/blob/main/kbc_game_attachment/Picture12.png'
-             , 'https://github.com/yash2001181/kbc_game/blob/main/kbc_game_attachment/Picture13.png', 'https://github.com/yash2001181/kbc_game/blob/main/kbc_game_attachment/Picture14.png', 'https://github.com/yash2001181/kbc_game/blob/main/kbc_game_attachment/Picture15.png']
+image_ids = ['https://github.com/yash2001181/kbc_game/blob/main/kbc_game_attachment/Picture1.png?raw=true', 'https://github.com/yash2001181/kbc_game/blob/main/kbc_game_attachment/Picture1.png?raw=true', 'https://github.com/yash2001181/kbc_game/blob/main/kbc_game_attachment/Picture3.png?raw=true', 'https://github.com/yash2001181/kbc_game/blob/main/kbc_game_attachment/Picture4.png?raw=true'
+             , 'https://github.com/yash2001181/kbc_game/blob/main/kbc_game_attachment/Picture5.png?raw=true', 'https://github.com/yash2001181/kbc_game/blob/main/kbc_game_attachment/Picture6.png?raw=true', 'https://github.com/yash2001181/kbc_game/blob/main/kbc_game_attachment/Picture7.png?raw=true', 'https://github.com/yash2001181/kbc_game/blob/main/kbc_game_attachment/Picture8.png?raw=true'
+             , 'https://github.com/yash2001181/kbc_game/blob/main/kbc_game_attachment/Picture9.png?raw=true', 'https://github.com/yash2001181/kbc_game/blob/main/kbc_game_attachment/Picture10.png?raw=true', 'https://github.com/yash2001181/kbc_game/blob/main/kbc_game_attachment/Picture11.png?raw=true', 'https://github.com/yash2001181/kbc_game/blob/main/kbc_game_attachment/Picture12.png?raw=true'
+             , 'https://github.com/yash2001181/kbc_game/blob/main/kbc_game_attachment/Picture13.png?raw=true', 'https://github.com/yash2001181/kbc_game/blob/main/kbc_game_attachment/Picture14.png?raw=true', 'https://github.com/yash2001181/kbc_game/blob/main/kbc_game_attachment/Picture15.png?raw=true']
 # Loop to load the images and append them to the amountImages list
 for i in range(len(image_ids)):
     url = f"{image_ids[i]}"
@@ -390,12 +390,22 @@ for i in range(len(image_ids)):
         print(f"HTTP Error {e.code}: {e.reason}")
 
 
+url = "https://github.com/yash2001181/kbc_game/blob/main/kbc_game_attachment/Picture0.png?raw=true"
+headers = {'User-Agent': 'Mozilla/5.0'}
+req = urllib.request.Request(url, headers=headers)
+
+try:
+    response = urllib.request.urlopen(req)
+    amount_label = ImageTk.PhotoImage(Image.open(response))
+except urllib.error.HTTPError as e:
+    print(f"HTTP Error {e.code}: {e.reason}")
+
 amount_label_label = tk.Label(rightFrame, image=amount_label, bg='black', bd=0, activebackground='black',
                               highlightbackground='black', highlightthickness=0)
 amount_label_label.pack()
 # Replace YOUR_LAYOUT_IMAGE_ID with the actual ID of your layout image
 
-url = "https://github.com/yash2001181/kbc_game/blob/main/kbc_game_attachment/Picture0.png"
+url = "https://github.com/yash2001181/kbc_game/blob/main/kbc_game_attachment/lay.png?raw=true"
 headers = {'User-Agent': 'Mozilla/5.0'}
 req = urllib.request.Request(url, headers=headers)
 
