@@ -20,41 +20,33 @@ from pygame import mixer
 
 mixer.init()
 
-qa_file_path = 
-df = pd.read_csv
+
 # Define the questions and answers
-question = ["What is the capital of France?",
-            "Which planet is known as the Red Planet?",
-            "What is the largest mammal in the world?",
-            "Which country is famous for the Taj Mahal?",
-            "What is the chemical symbol for water?",
-            "What is the currency of Japan?",
-            "Who wrote the play 'Romeo and Juliet'?",
-            "Which element is represented by the symbol 'Fe'?",
-            "What is the tallest mountain in the world?",
-            "Which gas do plants use for photosynthesis?",
-            "What is the largest organ in the human body?",
-            "Which country hosted the 2020 Summer Olympics?",
-            "Who painted the 'Mona Lisa'?",
-            "Which famous scientist formulated the theory of relativity?",
-            "Which continent is the Sahara Desert located in?"]
 
-first_option = ["Paris", "Mars", "Blue Whale", "India", "H2O",
-                "Dollar", "Shakespeare", "Hydrogen", "Mount Kilimanjaro", "Oxygen",
-                "Brain", "China", "Vincent van Gogh", "Isaac Newton", "Africa"]
-second_option = ["London", "Jupiter", "Elephant", "China", "CO2",
-                 "Yen", "Chaucer", "Iron", "Mount Everest", "Carbon Dioxide",
-                 "Heart", "Japan", "Leonardo da Vinci", "Albert Einstein", "Asia"]
-third_option = ["Berlin", "Venus", "Giraffe", "Japan", "O2",
-                "Euro", "Milton", "Gold", "K2", "Methane",
-                "Skin", "USA", "Michelangelo", "Galileo Galilei", "South America"]
-fourth_option = ["Rome", "Saturn", "Hippopotamus", "Egypt", "N2",
-                 "Pound", "Hemingway", "Silver", "Makalu", "Nitrogen",
-                 "Liver", "Russia", "Pablo Picasso", "Isaac Newton", "Australia"]
+qa_file_path = 'https://github.com/yash2001181/kbc_game/raw/main/kbc_game_attachment/questions_answers.csv?raw=true'
 
-answers = ['Paris', 'Mars', 'Blue Whale', 'India', 'H2O',
-           'Yen', 'Shakespeare', 'Iron', 'Mount Everest', 'Carbon Dioxide',
-           'Skin', 'Japan', 'Leonardo da Vinci', 'Albert Einstein', 'Africa']
+# Read the CSV file into a DataFrame
+df = pd.read_csv(qa_file_path, delimiter=',')
+
+# Print the DataFrame
+# print(df)
+
+# column_name = 'Question'
+# selected_column = df[column_name][:20]
+# Access a specific column (e.g., 'Question')
+question = df['Question'].tolist()[:15]
+# Shuffle the questions list randomly
+random.shuffle(question)
+
+# Fetch a random selection of 20 questions
+question = question[:15]
+
+first_option = df['Option A'].tolist()[:15]
+second_option = df['Option B'].tolist()[:15]
+third_option = df['Option C'].tolist()[:15]
+fourth_option = df['Option D'].tolist()[:15]
+
+answers = df['Answer'].tolist()[:15]
 
 x = pd.DataFrame({'Question': question, 'first_option': first_option, 'second_option': second_option,
                   'third_option': third_option, 'fourth_option': fourth_option, 'Answers': answers})
@@ -119,7 +111,7 @@ def select(event):
                              highlightbackground='black', highlightthickness=0, width=380, height=280)
             imgLabel.pack(pady=50)
 
-            winLabel = Label(root2, text='Congratulations! You Won!', font=('arial', 40, 'bold'), bg='black',
+            winLabel = Label(root2, text=f'Congratulations! You Won! Amount: ₹{current_amount}', font=('arial', 40, 'bold'), bg='black',
                              fg='white')
             winLabel.pack()
 
@@ -158,7 +150,7 @@ def select(event):
                              highlightbackground='black', highlightthickness=0, width=380, height=280)
             imgLabel.pack(pady=50)
 
-            loseLabel = Label(root1, text='You lose', font=('arial', 40, 'bold'), bg='black', fg='white')
+            loseLabel = Label(root1, text=f'You lose and you win Amount: ₹{current_amount}', font=('arial', 40, 'bold'), bg='black', fg='white')
             loseLabel.pack()
 
             tryagainButton = tk.Button(root1, text='Try Again', font=('arial', 20, 'bold'), bg='black', fg='white',
