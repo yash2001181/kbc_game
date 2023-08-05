@@ -33,22 +33,45 @@ df = pd.read_csv(qa_file_path, delimiter=',')
 # column_name = 'Question'
 # selected_column = df[column_name][:20]
 # Access a specific column (e.g., 'Question')
-question = df['Question'].tolist()[:15]
-# Shuffle the questions list randomly
-random.shuffle(question)
+# Access a specific column (e.g., 'Question')
+get_question = df['Question'].tolist()
+get_first_option = df['Option A'].tolist()
+get_second_option = df['Option B'].tolist()
+get_third_option = df['Option C'].tolist()
+get_fourth_option = df['Option D'].tolist()
+get_answer = df['Answer'].tolist()
 
-# Fetch a random selection of 20 questions
-question = question[:15]
+# Generate 20 random unique indices to select random questions
+random_indices = random.sample(range(len(get_question)), 20)
+print(random_indices)
 
-first_option = df['Option A'].tolist()[:15]
-second_option = df['Option B'].tolist()[:15]
-third_option = df['Option C'].tolist()[:15]
-fourth_option = df['Option D'].tolist()[:15]
+question = []
+first_option = []
+second_option = []
+third_option = []
+fourth_option = []
+answer = []
 
-answers = df['Answer'].tolist()[:15]
+# Print 20 random questions with their options and answers
+for index in random_indices:
+    inx_question = get_question[index]
+    inx_first_option = get_first_option[index]
+    inx_second_option = get_second_option[index]
+    inx_third_option = get_third_option[index]
+    inx_fourth_option = get_fourth_option[index]
+    inx_answer = get_answer[index]
+
+    # Append the selected values to their respective lists
+    question.append(inx_question)
+    first_option.append(inx_first_option)
+    second_option.append(inx_second_option)
+    third_option.append(inx_third_option)
+    fourth_option.append(inx_fourth_option)
+    answer.append(inx_answer)
+
 
 x = pd.DataFrame({'Question': question, 'first_option': first_option, 'second_option': second_option,
-                  'third_option': third_option, 'fourth_option': fourth_option, 'Answers': answers})
+                  'third_option': third_option, 'fourth_option': fourth_option, 'Answers': answer})
 
 lifelines_used = {"50-50": False, "Call a Friend": False, "Audience Poll": False}
 
@@ -83,7 +106,7 @@ def select(event):
     audience_poll_result_label.config(text="")
 
     for i in range(15):
-        if value == answers[i]:
+        if value == answer[i]:
             print(i)
 
             questionIndex = (i + 1) % 16
@@ -122,7 +145,7 @@ def select(event):
             root2.mainloop()
             break
 
-        if value not in answers:
+        if value not in answer:
             def close():
                 root1.destroy()
                 root.destroy()
@@ -178,7 +201,7 @@ def use_fifty_fifty():
 
     if not lifelines_used["50-50"]:
         question_idx = questionIndex
-        correct_option = answers[question_idx]
+        correct_option = answer[question_idx]
         options = [first_option[question_idx], second_option[question_idx], third_option[question_idx],
                    fourth_option[question_idx]]
         options.remove(correct_option)
@@ -211,7 +234,7 @@ def use_audience_poll():
 
     if not lifelines_used["Audience Poll"]:
         question_idx = questionIndex
-        correct_option = answers[question_idx]
+        correct_option = answer[question_idx]
         total_votes = 100  # Total number of votes for the audience poll
 
         # Randomly assign votes to options (including the correct option)
@@ -254,7 +277,7 @@ def use_phoneFriend():
         time.sleep(0.4)  # Sleep for a short interval
     for i in range(16):
         if questionArea.get(1.0, 'end-1c') == question[i]:
-            engine.say(f'the answer is {answers[i]}')
+            engine.say(f'the answer is {answer[i]}')
             engine.runAndWait()
 
         lifelines_used["Call a Friend"] = True
