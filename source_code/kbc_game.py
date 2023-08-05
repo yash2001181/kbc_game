@@ -5,12 +5,11 @@ import os
 import pandas as pd
 import random
 import pyttsx3
-import pygame
 import time
 import urllib
 import requests
 import urllib.request
-from io import BytesIO
+
 
 
 engine = pyttsx3.init()
