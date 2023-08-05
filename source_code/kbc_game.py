@@ -19,6 +19,9 @@ engine.setProperty('voices', voices[0].id)
 from pygame import mixer
 
 mixer.init()
+
+qa_file_path = 
+df = pd.read_csv
 # Define the questions and answers
 question = ["What is the capital of France?",
             "Which planet is known as the Red Planet?",
@@ -68,7 +71,7 @@ def reset_lifelines():
 
 
 def select(event):
-    global questionIndex, value
+    global questionIndex, value, current_amount
     if lifelines_used["Audience Poll"]:
         audiencePoll51Button.config(state=tk.DISABLED)
 
@@ -91,15 +94,20 @@ def select(event):
     for i in range(15):
         if value == answers[i]:
             print(i)
+
             questionIndex = (i + 1) % 16
             questionArea.delete(1.0, END)
             questionArea.insert(END, question[questionIndex])
+
+            current_amount += 1000  # Increase the amount by $1000 (you can adjust the amount as needed)
+            amount_label_value.set(f'Amount: ₹{current_amount}')  # Update the amount label text
+
 
             optionButton1.config(text=first_option[questionIndex])
             optionButton2.config(text=second_option[questionIndex])
             optionButton3.config(text=third_option[questionIndex])
             optionButton4.config(text=fourth_option[questionIndex])
-            amount_label_label.config(image=amountImages[questionIndex])
+
 
         if questionIndex == 15:  # If the last question is answered correctly
             root2 = Toplevel()
@@ -129,14 +137,16 @@ def select(event):
                 root.destroy()
 
             def tryagain():
+                global current_amount
                 reset_lifelines()
+                current_amount = 0  # Reset the amount value to 0
                 questionArea.delete(1.0, END)
                 questionArea.insert(END, question[0])
                 optionButton1.config(text=first_option[0])
                 optionButton2.config(text=second_option[0])
                 optionButton3.config(text=third_option[0])
                 optionButton4.config(text=fourth_option[0])
-                amount_label_label.config(image=amountImages[0])
+                amount_label_value.set(f'Amount: ₹{current_amount}')
                 root1.destroy()
 
             root1 = Toplevel()
@@ -370,39 +380,19 @@ kbc_logo_label.pack()
 
 
 
-# List to store the ImageTk.PhotoImage objects
-amountImages = []
-image_ids = ['https://github.com/yash2001181/kbc_game/blob/main/kbc_game_attachment/Picture1.png?raw=true', 'https://github.com/yash2001181/kbc_game/blob/main/kbc_game_attachment/Picture1.png?raw=true', 'https://github.com/yash2001181/kbc_game/blob/main/kbc_game_attachment/Picture3.png?raw=true', 'https://github.com/yash2001181/kbc_game/blob/main/kbc_game_attachment/Picture4.png?raw=true'
-             , 'https://github.com/yash2001181/kbc_game/blob/main/kbc_game_attachment/Picture5.png?raw=true', 'https://github.com/yash2001181/kbc_game/blob/main/kbc_game_attachment/Picture6.png?raw=true', 'https://github.com/yash2001181/kbc_game/blob/main/kbc_game_attachment/Picture7.png?raw=true', 'https://github.com/yash2001181/kbc_game/blob/main/kbc_game_attachment/Picture8.png?raw=true'
-             , 'https://github.com/yash2001181/kbc_game/blob/main/kbc_game_attachment/Picture9.png?raw=true', 'https://github.com/yash2001181/kbc_game/blob/main/kbc_game_attachment/Picture10.png?raw=true', 'https://github.com/yash2001181/kbc_game/blob/main/kbc_game_attachment/Picture11.png?raw=true', 'https://github.com/yash2001181/kbc_game/blob/main/kbc_game_attachment/Picture12.png?raw=true'
-             , 'https://github.com/yash2001181/kbc_game/blob/main/kbc_game_attachment/Picture13.png?raw=true', 'https://github.com/yash2001181/kbc_game/blob/main/kbc_game_attachment/Picture14.png?raw=true', 'https://github.com/yash2001181/kbc_game/blob/main/kbc_game_attachment/Picture15.png?raw=true']
-# Loop to load the images and append them to the amountImages list
-for i in range(len(image_ids)):
-    url = f"{image_ids[i]}"
-    headers = {'User-Agent': 'Mozilla/5.0'}
-    req = urllib.request.Request(url, headers=headers)
+# Initialize the current amount
+current_amount = 0
 
-    try:
-        response = urllib.request.urlopen(req)
-        amount_image = ImageTk.PhotoImage(Image.open(response))
-        amountImages.append(amount_image)
-    except urllib.error.HTTPError as e:
-        print(f"HTTP Error {e.code}: {e.reason}")
+# Create a label to display the current amount
+amount_label_value = tk.StringVar()
+amount_label_value.set(f'Amount: ₹{current_amount}')  # Set the initial value of the amount label
 
-
-url = "https://github.com/yash2001181/kbc_game/blob/main/kbc_game_attachment/Picture0.png?raw=true"
-headers = {'User-Agent': 'Mozilla/5.0'}
-req = urllib.request.Request(url, headers=headers)
-
-try:
-    response = urllib.request.urlopen(req)
-    amount_label = ImageTk.PhotoImage(Image.open(response))
-except urllib.error.HTTPError as e:
-    print(f"HTTP Error {e.code}: {e.reason}")
-
-amount_label_label = tk.Label(rightFrame, image=amount_label, bg='black', bd=0, activebackground='black',
-                              highlightbackground='black', highlightthickness=0)
+amount_label_label = tk.Label(rightFrame, textvariable=amount_label_value, font=('arial', 16, 'bold'),
+                              bg='black', fg='white', bd=0, activebackground='black', activeforeground='white')
 amount_label_label.pack()
+
+
+
 # Replace YOUR_LAYOUT_IMAGE_ID with the actual ID of your layout image
 
 url = "https://github.com/yash2001181/kbc_game/blob/main/kbc_game_attachment/lay.png?raw=true"
