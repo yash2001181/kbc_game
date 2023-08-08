@@ -109,7 +109,7 @@ def select(event):
         global current_amount, questionIndex
 
         # Assuming 'answer' is a list containing the correct answers corresponding to each question index
-
+        print(questionIndex)
         if value == answer[questionIndex]:
             questionIndex = (questionIndex + 1) % len(question)
 
@@ -124,9 +124,57 @@ def select(event):
             optionButton2.config(text=second_option[questionIndex])
             optionButton3.config(text=third_option[questionIndex])
             optionButton4.config(text=fourth_option[questionIndex])
+        else:
+            tryagain_window()
 
         return questionIndex
 
+    def tryagain_window():
+        def close():
+            root1.destroy()
+            root.destroy()
+
+        def tryagain():
+            global questionIndex, current_amount
+
+            reset_lifelines()
+            current_amount = 0  # Reset the amount value to 0
+
+            questionIndex = 0
+            questionArea.delete(1.0, END)
+            questionArea.insert(END, question[0])
+            optionButton1.config(text=first_option[0])
+            optionButton2.config(text=second_option[0])
+            optionButton3.config(text=third_option[0])
+            optionButton4.config(text=fourth_option[0])
+            amount_label_value.set(f'Amount: ₹{current_amount}')
+            root1.destroy()
+
+        root1 = Toplevel()
+        root1.config(bg='black')
+        root1.geometry('1270x652+0+0')
+        root1.title("Sorry, you gave the wrong answer and your game is ended now")
+
+        imgLabel = Label(root1, image=kbc_logo, bg='black', bd=0, activebackground='black',
+                         highlightbackground='black', highlightthickness=0, width=380, height=280)
+        imgLabel.pack(pady=50)
+
+        loseLabel = Label(root1, text=f'You lose and you win Amount: ₹{current_amount}',
+                          font=('arial', 40, 'bold'),
+                          bg='black', fg='white')
+        loseLabel.pack()
+
+        tryagainButton = tk.Button(root1, text='Try Again', font=('arial', 20, 'bold'), bg='black', fg='white',
+                                   activebackground='black', activeforeground='white', bd=0, cursor='hand2',
+                                   command=tryagain)
+        tryagainButton.pack()
+
+        closeButton = tk.Button(root1, text='Close', font=('arial', 20, 'bold'), bg='black', fg='white',
+                                activebackground='black', activeforeground='white', bd=0, cursor='hand2',
+                                command=close)
+        closeButton.pack()
+
+        root1.mainloop()
 
     # Assuming 'value' is the selected answer and 'questionIndex' is the current question index
     # Call the function to handle the answer and get the updated question index
@@ -160,47 +208,7 @@ def select(event):
 
 
 
-    def tryagain():
-        global current_amount
-        reset_lifelines()
-        current_amount = 0  # Reset the amount value to 0
-        questionArea.delete(1.0, END)
-        questionArea.insert(END, question[0])
-        optionButton1.config(text=first_option[0])
-        optionButton2.config(text=second_option[0])
-        optionButton3.config(text=third_option[0])
-        optionButton4.config(text=fourth_option[0])
-        amount_label_value.set(f'Amount: ₹{current_amount}')
-        root1.destroy()
 
-        root1 = Toplevel()
-        root1.config(bg='black')
-        root1.geometry('1270x652+0+0')
-        root1.title("Sorry, you gave the wrong answer and your game is ended now")
-
-        imgLabel = Label(root1, image=kbc_logo, bg='black', bd=0, activebackground='black',
-                         highlightbackground='black', highlightthickness=0, width=380, height=280)
-        imgLabel.pack(pady=50)
-
-        loseLabel = Label(root1, text=f'You lose and you win Amount: ₹{current_amount}', font=('arial', 40, 'bold'),
-                          bg='black', fg='white')
-        loseLabel.pack()
-
-        tryagainButton = tk.Button(root1, text='Try Again', font=('arial', 20, 'bold'), bg='black', fg='white',
-                                   activebackground='black', activeforeground='white', bd=0, cursor='hand2',
-                                   command=tryagain)
-        tryagainButton.pack()
-
-        closeButton = tk.Button(root1, text='Close', font=('arial', 20, 'bold'), bg='black', fg='white',
-                                activebackground='black', activeforeground='white', bd=0, cursor='hand2',
-                                command=close)
-        closeButton.pack()
-
-        root1.mainloop()
-
-    def close():
-        root1.destroy()
-        root.destroy()
 
     # Assuming 'questionIndex' is the current question index
     # Assuming 'value' is the selected answer
@@ -210,9 +218,6 @@ def select(event):
     if questionIndex == len(question) - 1:
         show_congratulations_window(current_amount)
 
-    if value not in answer[questionIndex]:
-        close()
-        tryagain()
 
 
     if not lifelines_used["50-50"]:
@@ -479,3 +484,4 @@ optionButton4.bind('<Button-1>', select)
 # Create a button to start the game
 
 root.mainloop()
+
