@@ -109,7 +109,6 @@ def select(event):
         global current_amount, questionIndex
 
         # Assuming 'answer' is a list containing the correct answers corresponding to each question index
-        print(questionIndex)
         if value == answer[questionIndex]:
             questionIndex = (questionIndex + 1) % len(question)
 
@@ -124,6 +123,7 @@ def select(event):
             optionButton2.config(text=second_option[questionIndex])
             optionButton3.config(text=third_option[questionIndex])
             optionButton4.config(text=fourth_option[questionIndex])
+
         else:
             tryagain_window()
 
@@ -204,6 +204,7 @@ def select(event):
         # closeButton.pack()
 
         root.after(4000, root.destroy)
+        root2.after(4000, root2.destroy)
         root2.mainloop()
 
 
@@ -213,8 +214,6 @@ def select(event):
     # Assuming 'questionIndex' is the current question index
     # Assuming 'value' is the selected answer
     # Replace this with the actual method to get the selected answer
-    print(questionIndex)
-    print(len(question))
     if questionIndex == len(question) - 1:
         show_congratulations_window(current_amount)
 
@@ -484,4 +483,3 @@ optionButton4.bind('<Button-1>', select)
 # Create a button to start the game
 
 root.mainloop()
-
