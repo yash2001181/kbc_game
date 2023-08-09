@@ -4,11 +4,13 @@ from PIL import ImageTk, Image
 import os
 import pandas as pd
 import random
+import pygame
 import pyttsx3
 import time
 import urllib
 import requests
 import urllib.request
+from io import BytesIO
 
 engine = pyttsx3.init()
 voices = engine.getProperty('voices')
@@ -16,6 +18,13 @@ engine.setProperty('voices', voices[0].id)
 from pygame import mixer
 
 mixer.init()
+def spech(text):
+	engine = pyttsx3.init()
+	engine.setProperty("rate",140)
+	engine.setProperty("volume",10)
+	engine.say(text)
+	engine.runAndWait()
+spech("Welcome to the KBC game!")
 
 # Define the questions and answers
 
@@ -109,6 +118,7 @@ def select(event):
         global current_amount, questionIndex
 
         # Assuming 'answer' is a list containing the correct answers corresponding to each question index
+        print(questionIndex)
         if value == answer[questionIndex]:
             questionIndex = (questionIndex + 1) % len(question)
 
@@ -123,7 +133,6 @@ def select(event):
             optionButton2.config(text=second_option[questionIndex])
             optionButton3.config(text=third_option[questionIndex])
             optionButton4.config(text=fourth_option[questionIndex])
-
         else:
             tryagain_window()
 
@@ -162,6 +171,7 @@ def select(event):
         loseLabel = Label(root1, text=f'You lose and you win Amount: ₹{current_amount}',
                           font=('arial', 40, 'bold'),
                           bg='black', fg='white')
+        
         loseLabel.pack()
 
         tryagainButton = tk.Button(root1, text='Try Again', font=('arial', 20, 'bold'), bg='black', fg='white',
@@ -204,7 +214,6 @@ def select(event):
         # closeButton.pack()
 
         root.after(4000, root.destroy)
-        root2.after(4000, root2.destroy)
         root2.mainloop()
 
 
@@ -214,6 +223,8 @@ def select(event):
     # Assuming 'questionIndex' is the current question index
     # Assuming 'value' is the selected answer
     # Replace this with the actual method to get the selected answer
+    print(questionIndex)
+    print(len(question))
     if questionIndex == len(question) - 1:
         show_congratulations_window(current_amount)
 
@@ -296,17 +307,31 @@ def use_phoneFriend():
     global lifeline_used, questionIndex, phone_friend_used
     # Load music from Google Drive link using pygame.mixer
     music_url = "https://github.com/yash2001181/kbc_game/blob/main/kbc_game_attachment/calling.mp3?raw=true"
-    response = requests.get(music_url)
-    with open("phone_friend_music.mp3", "wb") as f:
-        f.write(response.content)
-    # Load the music from the local file path
-    music_file = os.path.abspath("phone_friend_music.mp3")
-    mixer.music.load(music_file)
-    mixer.music.play()
+    response = requests.get(music_url,stream = True)
+    # Check if the request was successful
+    if response.status_code == 200:
+        # Create a BytesIO object to hold the music content
+        music_content = response.content
+
+        # Create a Sound object using the music content
+        phone_friend_music = pygame.mixer.Sound(file=BytesIO(music_content))
+
+        # Play the phone friend music
+         # Check if the request was successful
+    if response.status_code == 200:
+        # Create a BytesIO object to hold the music content
+        music_content = response.content
+
+        # Create a Sound object using the music content
+        phone_friend_music = pygame.mixer.Sound(file=BytesIO(music_content))
+
+        # Play the phone friend music
+        phone_friend_music.play()
     # Wait until the ringing sound finishes playing
-    while mixer.music.get_busy():
-        time.sleep(0.4)  # Sleep for a short interval
-    for i in range(16):
+    while pygame.mixer.get_busy():
+         pygame.time.delay(400)  # Delay for 400 milliseconds
+
+    for i in range(len(question)):
         if questionArea.get(1.0, 'end-1c') == question[i]:
             engine.say(f'the answer is {answer[i]}')
             engine.runAndWait()
@@ -483,3 +508,4 @@ optionButton4.bind('<Button-1>', select)
 # Create a button to start the game
 
 root.mainloop()
+
