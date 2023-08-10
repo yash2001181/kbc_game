@@ -4,4 +4,5 @@ pillow==8.4.0
 pyttsx3==2.90
 urllib3==1.26.6
 requests==2.31.0
-tk==8.6.12
+tk==0.1.0
+
