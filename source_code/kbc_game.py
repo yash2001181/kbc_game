@@ -12,19 +12,19 @@ import requests
 import urllib.request
 from io import BytesIO
 
-engine = pyttsx3.init()
-voices = engine.getProperty('voices')
-engine.setProperty('voices', voices[0].id)
-from pygame import mixer
+# engine = pyttsx3.init()
+# voices = engine.getProperty('voices')
+# engine.setProperty('voices', voices[0].id)
+# from pygame import mixer
 
-mixer.init()
-def spech(text):
-	engine = pyttsx3.init()
-	engine.setProperty("rate",140)
-	engine.setProperty("volume",10)
-	engine.say(text)
-	engine.runAndWait()
-spech("Welcome to the KBC game!")
+# mixer.init()
+# def spech(text):
+# 	engine = pyttsx3.init()
+# 	engine.setProperty("rate",140)
+# 	engine.setProperty("volume",10)
+# 	engine.say(text)
+# 	engine.runAndWait()
+# spech("Welcome to the KBC game!")
 
 # Define the questions and answers
 
