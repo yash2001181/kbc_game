@@ -11,35 +11,30 @@ import urllib
 import requests
 import urllib.request
 from io import BytesIO
+from IPython.display import Audio, display
+from gtts import gTTS
+import io
 
-# engine = pyttsx3.init()
-# voices = engine.getProperty('voices')
-# engine.setProperty('voices', voices[0].id)
-# from pygame import mixer
+text = "Welcome to the KBC game!"
+tts = gTTS(text)
 
-# mixer.init()
-# def spech(text):
-# 	engine = pyttsx3.init()
-# 	engine.setProperty("rate",140)
-# 	engine.setProperty("volume",10)
-# 	engine.say(text)
-# 	engine.runAndWait()
-# spech("Welcome to the KBC game!")
+# Create a bytes IO buffer
+audio_buffer = io.BytesIO()
+
+# Save the audio data to the buffer
+tts.write_to_fp(audio_buffer)
+audio_buffer.seek(0)
+
+# Play the audio using IPython.display.Audio
+audio = Audio(audio_buffer.read(), autoplay=True)
+display(audio)
 
 # Define the questions and answers
 
-qa_file_path = 'https://github.com/yash2001181/kbc_game/raw/main/kbc_game_attachment/questions_answers.csv?raw=true'
+qa_file_path = 'https://github.com/yash2001181/kbc_game/blob/main/kbc_game_attachment/questions_answers.csv?raw=true'
 
 # Read the CSV file into a DataFrame
 df = pd.read_csv(qa_file_path, delimiter=',')
-
-# Print the DataFrame
-# print(df)
-
-# column_name = 'Question'
-# selected_column = df[column_name][:20]
-# Access a specific column (e.g., 'Question')
-# Access a specific column (e.g., 'Question')
 get_question = df['Question'].tolist()
 get_first_option = df['Option A'].tolist()
 get_second_option = df['Option B'].tolist()
@@ -82,7 +77,7 @@ lifelines_used = {"50-50": False, "Call a Friend": False, "Audience Poll": False
 
 questionIndex = 0
 # Initialize the current amount
-current_amount = 0
+current_amount = 1000
 
 def reset_lifelines():
     global lifelines_used
@@ -147,7 +142,7 @@ def select(event):
             global questionIndex, current_amount
 
             reset_lifelines()
-            current_amount = 0  # Reset the amount value to 0
+            current_amount = 1000  # Reset the amount value to 0
 
             questionIndex = 0
             questionArea.delete(1.0, END)
@@ -314,27 +309,27 @@ def use_phoneFriend():
         music_content = response.content
 
         # Create a Sound object using the music content
-        phone_friend_music = pygame.mixer.Sound(file=BytesIO(music_content))
+        display(Audio(music_content, autoplay=True))
 
-        # Play the phone friend music
-         # Check if the request was successful
-    if response.status_code == 200:
-        # Create a BytesIO object to hold the music content
-        music_content = response.content
 
-        # Create a Sound object using the music content
-        phone_friend_music = pygame.mixer.Sound(file=BytesIO(music_content))
-
-        # Play the phone friend music
-        phone_friend_music.play()
-    # Wait until the ringing sound finishes playing
-    while pygame.mixer.get_busy():
-         pygame.time.delay(400)  # Delay for 400 milliseconds
+        # Wait until the ringing sound finishes playing
+        time.sleep(4)   # Delay for 400 milliseconds
 
     for i in range(len(question)):
         if questionArea.get(1.0, 'end-1c') == question[i]:
-            engine.say(f'the answer is {answer[i]}')
-            engine.runAndWait()
+            text = f"the answer is{i}"
+            tts = gTTS(text)
+
+            # Create a bytes IO buffer
+            audio_buffer = io.BytesIO()
+
+            # Save the audio data to the buffer
+            tts.write_to_fp(audio_buffer)
+            audio_buffer.seek(0)
+
+            # Play the audio using IPython.display.Audio
+            audio = Audio(audio_buffer.read(), autoplay=True)
+            display(audio)
 
         lifelines_used["Call a Friend"] = True
         phoneAFriend52Button.config(state=tk.DISABLED)
